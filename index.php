@@ -88,7 +88,8 @@ echo str_word_count("Sveiki visi"); // outputs arba atvaizdavimas 2 zodziai
 <li> Kazkas...</li>
 
 <?php
-echo strrev("Hello world!"); // outputs !dlrow olleH 
+echo strrev("Hello world!"); // outputs !dlrow olleH nes buna puslapiu kur tekstas buna is desines i kaire
+
 
 // NEISVAIZDUOJU KA SITAS DALYKAS DARO?
 ?>
@@ -99,7 +100,12 @@ echo strrev("Hello world!"); // outputs !dlrow olleH
 
 <?php
 define("GREETING", "Welcome to W3Schools.com!");
-echo GREETING; //NESUPRANTU KAS CIA YRA? kam tai skirta ir ka tai isvis daro?
+echo GREETING; /*NESUPRANTU KAS CIA YRA? kam tai skirta ir ka tai isvis daro? - tai buna kartais scripte kad reikia 
+konkretaus kintamojo
+kuri nori naudot per visa koda savo proggamos
+ir kad nereiktu kiekviena karta to is naujo rasyt
+apsirasai tokius kintamuosius*/
+
 ?>
 
 <hr>
@@ -126,8 +132,10 @@ echo $x * $y;
 <?php
 $x = 100; 
 $y = 50;
-// Kas cia tokio kam tie lygu jei mes vistiek tik zodi parasem??
-if ($x == 100 and $y == 50) {
+/* Kas cia tokio kam tie lygu jei mes vistiek tik zodi parasem?? nu tai cia yra if funkcija
+patikrinimo algoritmas , sita koda galima naudot jei norima patikrint tarkim vartotojo passworda tai jog ar teisings reikia iskelt salyga kuri tai atitktu.. */
+
+if ($x == 100 xor $y == 40) {
      echo "Hello world!";
 }
 ?>   
@@ -189,7 +197,7 @@ else {
 <li>PHP  switch Statement</li>
 
 <?php
-$favcolor = "red";
+$favcolor = "black";
 // NESUPRANTU KAM REIKALINGAS, CIA GAL JEI I KAZKOKIA LENTELE RASYT REIKES JOG JIS DUOTU VARIANTUS?
 switch ($favcolor) {
     case "red":
@@ -212,7 +220,7 @@ switch ($favcolor) {
 $y = 1;
 while($y <= 6) {
     echo "Numeris yra: $y <br>";
-    $y++; // Vel nesupratau kam tie pliusai?
+    $y++; // Vel nesupratau kam tie pliusai? Padidina viena karta
 }
 ?>
 <!-- Arba
@@ -273,6 +281,7 @@ narioNarys("robertelis");
 /*Nesupratau ka sitas daro? tas min tai cia visada buna toki nustatyt galima kaip funkcija? */
 function setHeight($minheight = 50) {
     echo "The height is : $minheight <br>";
+    
 }
 
 setHeight(350);
@@ -287,7 +296,7 @@ function sum($x, $y) {
      return $z; // ?
 }
 
-echo "5 + 10 = " . sum(5,10) . "<br>"; /*Kodel sitose funkcijose nera po = $z? o tiesiog be nieko*/
+echo "5 + 10 = " . sum(5,10) . "<br>"; 
 echo "7 + 13 = " . sum(7,13) . "<br>";
 echo "2 + 4 = " . sum(2,4);
 
@@ -311,10 +320,14 @@ $masinos = array("Volvo", "Corvette", "Mustang");
 <?php
 // Nesuprantu pacio viso kodo nuo kur prasideda for?
 $cars = array("Volvo", "BMW", "Toyota");
+var_dump($cars);
 sort($cars);
+var_dump($cars);
 
 $clength = count($cars);
+var_dump($clength);
 for($x = 0; $x <  $clength; $x++) {
+     echo $x;
      echo $cars[$x];
      echo "<br>";
 }
@@ -337,7 +350,139 @@ $_SESSION
 Nesuprantu visiskai sito man asmeniskai atskirai sita turetum pasakyt..
 -->
 
+<?php 
+$x = 75; 
+$y = 25;
+ 
+function addition() { 
+    $GLOBALS['z'] = $GLOBALS['x'] + $GLOBALS['y']; 
+}
+ 
+addition(); 
+echo $z;  
+?>
 
+<hr>
+
+<?php 
+echo $_SERVER['PHP_SELF'];
+echo "<br>";
+echo $_SERVER['SERVER_NAME'];
+echo "<br>";
+echo $_SERVER['HTTP_HOST'];
+echo "<br>";
+echo $_SERVER['HTTP_REFERER'];
+echo "<br>";
+echo $_SERVER['HTTP_USER_AGENT'];
+echo "<br>";
+echo $_SERVER['SCRIPT_NAME'];
+?>
+
+
+
+<hr>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+  Name: <input type="text" name="fname">
+  <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $name = $_REQUEST['fname'];
+    if (empty($name)) {
+        echo "Name is empty";
+    } 
+    else {
+        echo $name;
+    }
+}
+?>
+
+<hr>
+
+<form method="get" action="index.php">
+ Ieskau: <input type="text" name="ieskau">
+     <input type="submit">
+</form>
+<?php 
+if (!empty($_GET)) {
+    $galiu_ieskot_tarp = array(
+        'masina',
+        'zmogus',
+        'vieta',
+        'lektuvas'
+    );
+    $ieskau = $_GET['ieskau'];
+    foreach ($galiu_ieskot_tarp as $rezultatas_kurio_tikiuos) {
+        if($ieskau == $rezultatas_kurio_tikiuos) {
+            echo $rezultatas_kurio_tikiuos;
+        }
+    }
+}
+// sitas scriptas paima ivesta verte i laukeli, ir patikrina galimus rezultatus. 
+// jei randa, grazina rezultata.
+?>
+
+<hr>
+
+<li>PHP Form Validation Example</li>
+<?php
+
+      
+$vardas_error = $pavarde_error = $lytis_error ;
+$Vardas = $Pavarde = $Komentarai = $Lytis ; 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   $Vardas = test_input($_POST["vartotojo_vardas"]);
+   $Pavarde = test_input($_POST["vartotojo_pavarde"]);
+   $Komentarai = test_input($_POST["komentarai"]);
+   $Lytis = test_input($_POST["lytis"]);
+}
+   
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["vartotojo_vardas"])) {
+    $vardas_error = "Reikalingas yra Vardas";
+  } else {
+    $Vardas = test_input($_POST["vartotojo_vardas"]);
+  }
+
+  if (empty($_POST["vartotojo_pavarde"])) {
+    $pavarde_error = "Reikalinga yra Pavarde";
+  } else {
+    $Pavarde = test_input($_POST["vartotojo_pavarde"]);
+  }
+
+  if (empty($_POST["lytis"])) {
+    $lytis_error = "Pasirinkite butinai lyti!";
+  } else {
+    $Lytis = test_input($_POST["lytis"]);
+  }
+}
+
+function test_input($data) {
+   $data = trim($data);
+   $data = stripslashes($data);
+   $data = htmlspecialchars($data);
+   return $data;
+}
+?>
+<form method="post" action="index.php<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+    
+Vardas      <input type="text" name="vartotojo_vardas">
+    <span class="error">* <?php echo $vardas_error;?></span>
+Pavarde     <input type="text" name="vartotojo_pavarde">
+    <span class="error">* <?php echo $pavarde_error;?></span>
+Komentarai  <textarea name="komentarai" rows="3" cols="20"></textarea>
+    Lytis -
+            <input type="radio" name="lytis" value="Vyras">
+            <input type="radio" name="lytis" value="Moteris">
+    <span class="error">* <?php echo $lytis_error;?></span>
+            <input type="submit">
+
+</form>
+<!-- Nepavyko padaryt required ir visur eroru pilna meto-->
 
 
 
