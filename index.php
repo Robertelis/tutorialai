@@ -431,8 +431,8 @@ if (!empty($_GET)) {
 <?php
 
       
-$vardas_error = $pavarde_error = $lytis_error ;
-$Vardas = $Pavarde = $Komentarai = $Lytis ; 
+$vardas_error = $pavarde_error =  $lytis_error = "";
+$Vardas = $Pavarde = $Komentarai = $Lytis = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $Vardas = test_input($_POST["vartotojo_vardas"]);
@@ -468,17 +468,21 @@ function test_input($data) {
    return $data;
 }
 ?>
-<form method="post" action="index.php<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
     
 Vardas      <input type="text" name="vartotojo_vardas">
     <span class="error">* <?php echo $vardas_error;?></span>
+    <hr>
 Pavarde     <input type="text" name="vartotojo_pavarde">
     <span class="error">* <?php echo $pavarde_error;?></span>
+    <hr>
 Komentarai  <textarea name="komentarai" rows="3" cols="20"></textarea>
+    <hr>
     Lytis -
             <input type="radio" name="lytis" value="Vyras">
             <input type="radio" name="lytis" value="Moteris">
     <span class="error">* <?php echo $lytis_error;?></span>
+    <hr>
             <input type="submit">
 
 </form>
